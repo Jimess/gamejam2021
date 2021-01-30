@@ -8,15 +8,12 @@ public class GameContent : MonoBehaviour
 {
     public static GameContent Instance;
 
-    public List<ContentItem> rngNumbers;
+    public List<ContentItem> content;
 
 
     private void Awake() {
         Instance = this;
     }
 
-    public List<ContentItem> getByTier(string tierName) {
-        UnityEngine.Random.Range(0, 1);
-        return rngNumbers.Where(x => x.name == tierName).OrderBy(x => Guid.NewGuid()).ToList();
-    }
+    public enum ITEM_TIER { TIER_1 = 0, TIER_2 = 1, TIER_3 = 2, TIER_4 = 3, TIER_5 = 4, TIER_6 = 5, TIER_7 = 6, TIER_8 = 7 }
 }
