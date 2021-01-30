@@ -13,8 +13,8 @@ public class ContentItemPanel : MonoBehaviour
     {
         nameMesh.text = item.itemName;
         spriteImage.sprite = item.sprite;
-        tierMesh.text = item.itemTier.ToString();
-        spriteColor.color = item.color;
+        //tierMesh.text = item.itemTier.ToString();
+        //spriteColor.color = item.color;
     }
 
 }
