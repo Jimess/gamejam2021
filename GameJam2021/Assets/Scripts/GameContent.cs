@@ -17,9 +17,37 @@ public class GameContent : MonoBehaviour
 
     public enum ITEM_TIER { TIER_1 = 0, TIER_2 = 1, TIER_3 = 2, TIER_4 = 3, TIER_5 = 4, TIER_6 = 5, TIER_7 = 6, TIER_8 = 7 }
 
-    public List<ContentItem> getByTier(int tier)
+    public ContentItem getTrash()
+    {
+        return getOneByTier(0);
+    }
+
+    public List<ContentItem> getGoals()
+    {
+        return getFromTierRange(1, 7, 4);
+    }
+
+    private ContentItem getOneByTier(int tier)
+    {
+        List<ContentItem> tierList = getByTier(tier);
+        return tierList[UnityEngine.Random.Range(0, tierList.Count)];
+    }
+
+    private List<ContentItem> getByTier(int tier)
     {
         return content.FindAll(item => (int) item.itemTier == tier ).ToList();
+    }
+
+    private List<ContentItem> getFromTierRange(int startTier, int endTier, int resultCount)
+    {
+        List<ContentItem> result = new List<ContentItem>();
+        List<ContentItem> tierList = new List<ContentItem>();
+        for (int i = startTier; i <= endTier; i++)
+        {
+            tierList.AddRange(getByTier(i));
+        }
+        result.AddRange(getRandomItems(tierList, resultCount));
+        return result;
     }
 
     public List<ContentItem> getAroundTier(int tier, int resultCount, ContentItem itemToExclude)
@@ -37,21 +65,24 @@ public class GameContent : MonoBehaviour
         }
         aroundTierList.Remove(itemToExclude);
         aroundTierList = aroundTierList.OrderBy(x => Guid.NewGuid()).ToList();
+        result.AddRange(getRandomItems(aroundTierList, resultCount));
+        Debug.Log(result);
+        return result;
+    }
+
+    private List<ContentItem> getRandomItems(List<ContentItem> originalList, int resultCount)
+    {
+        List<ContentItem> randomResults = new List<ContentItem>();
         ContentItem randomResult;
-        if (aroundTierList.Count >= resultCount)
+        if (originalList.Count >= resultCount)
         {
             for (int i = 0; i < resultCount; i++)
             {
-                randomResult = aroundTierList[UnityEngine.Random.Range(0, aroundTierList.Count)];
-                result.Add(randomResult);
-                aroundTierList.Remove(randomResult);
+                randomResult = originalList[UnityEngine.Random.Range(0, originalList.Count)];
+                randomResults.Add(randomResult);
+                randomResults.Remove(randomResult);
             }
         }
-        Debug.Log(result);
-        return result;
-
-
-
-
+        return randomResults;
     }
 }
