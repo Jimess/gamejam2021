@@ -27,12 +27,13 @@ public class Trader : MonoBehaviour
 
     public void selectItem()
     {
-
+        TradeSystem.Instance.SelectItem(item);
+        Debug.Log("CLICK");
     }
          
     private void updatePanel()
     {
-        panel.updateByItem(this.item);
+        panel.updateByItem(item);
     }
 
     public ContentItem returnItem()
