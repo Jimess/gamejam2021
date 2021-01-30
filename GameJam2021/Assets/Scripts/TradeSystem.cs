@@ -7,13 +7,16 @@ using DG.Tweening;
 public class TradeSystem : MonoBehaviour
 {
     public static TradeSystem Instance;
-    
+    public delegate void OnTradeEndDelegate();
+    public static OnTradeEndDelegate OnTradeEnd;
+
     [SerializeField] PlayerItem playerItem;
     [SerializeField] Trader trader1;
     [SerializeField] Trader trader2;
     [SerializeField] Transform timeCounter;
     [SerializeField] float timeLimit = 5.0f;
 
+    private ContentItem goalItem;
     private ContentItem currentPlayerItem;
     private float startTime;
     
@@ -37,20 +40,39 @@ public class TradeSystem : MonoBehaviour
     IEnumerator TradeStart()
     {
         startTime = Time.time;
-        //timeCounter.maxValue = timeLimit;
         timeCounter.DOScaleX(1f, timeLimit).From(0).SetEase(Ease.OutBounce);
         while(Time.time - startTime < timeLimit)
         {
             yield return null;
         }
-        Debug.Log("Trade ended");
-        //cia viskas po trade end
+        EndTrade(false);
     }
 
     public void SelectItem(ContentItem selectedItem)
     {
         updateCurrentItem(selectedItem);
-        renewTradeItems();
+        if (currentPlayerItem == goalItem)
+        {
+            StopCoroutine(TradeStart());
+            EndTrade(true);
+        } else
+        {
+            renewTradeItems();
+        }
+    }
+
+    private void EndTrade(bool win)
+    {
+        if (win)
+        {
+            GameManager.Instance.SetStartItem(null);
+            GameManager.Instance.SetGoalItem(null);
+        } else
+        {
+            GameManager.Instance.SetStartItem(currentPlayerItem);
+        }
+        OnTradeEnd.Invoke();
+        
     }
 
     private void renewTradeItems()

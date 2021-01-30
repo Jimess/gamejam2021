@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     public delegate void OnLevelStartDelegate();
     public static OnLevelStartDelegate OnGameStart;
 
+    private ContentItem startItem;
+    private ContentItem goalItem;
+
     private void Awake() {
         Instance = this;
         GameContent.OnContentLoad += ContentLoaded;
@@ -35,5 +38,25 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1;
             Debug.Log("UNPAUSED");
         }
+    }
+
+    public void SetStartItem(ContentItem item)
+    {
+        startItem = item;
+    }
+
+    public ContentItem GetStartItem()
+    {
+        return startItem;
+    }
+
+    public void SetGoalItem(ContentItem item)
+    {
+        goalItem = item;
+    }
+
+    public ContentItem GetGoalItem()
+    {
+        return goalItem;
     }
 }

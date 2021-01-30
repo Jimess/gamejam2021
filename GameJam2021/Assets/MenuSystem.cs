@@ -31,7 +31,7 @@ public class MenuSystem : MonoBehaviour
 
     [Header("Trash popup refs")]
     [SerializeField] Transform trashPopup;
-    [SerializeField] GameObject randomTrashContentItem;
+    [SerializeField] ContentItemPanel randomTrashContentItem;
     [SerializeField] Transform trashTargetTf;
 
     private void Awake() {
@@ -83,8 +83,9 @@ public class MenuSystem : MonoBehaviour
 
         // trash popup dissapears without content item
         seq.AppendCallback(() => {
-            //TODO SUGENERUOT RANDOMINI ITEMA
-            //jei ka randomTrashContentItem <-----
+            ContentItem startItem = GameContent.Instance.getTrash();
+            GameManager.Instance.SetStartItem(startItem);
+            randomTrashContentItem.updateByItem(startItem);
         });
         seq.Append(trashPopup.DOScale(1f, 0.75f));
 
