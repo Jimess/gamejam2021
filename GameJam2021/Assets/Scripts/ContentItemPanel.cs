@@ -11,6 +11,7 @@ public class ContentItemPanel : MonoBehaviour
     {
         nameMesh.text = item.itemName;
         spriteImage.sprite = item.sprite;
+        spriteImage.color = item.color;
     }
 
 }

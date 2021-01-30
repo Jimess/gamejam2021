@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class TradeSystem : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class TradeSystem : MonoBehaviour
     [SerializeField] PlayerItem playerItem;
     [SerializeField] Trader trader1;
     [SerializeField] Trader trader2;
-    [SerializeField] Slider timeCounter;
+    [SerializeField] Transform timeCounter;
     [SerializeField] float timeLimit = 5.0f;
 
     private ContentItem currentPlayerItem;
@@ -20,10 +21,12 @@ public class TradeSystem : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        //GameContent.OnContentLoad += GO;
+
     }
 
     // Start is called before the first frame update
-    void Start()
+    void GO()
     {
         updateCurrentItem(GameContent.Instance.content[0]);
 
@@ -31,34 +34,11 @@ public class TradeSystem : MonoBehaviour
         StartCoroutine(TradeStart());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown("space"))
-        {
-            TogglePause();
-        }
-        timeCounter.value = Time.time - startTime;
-    }
-
-    void TogglePause()
-    {
-        if (Time.timeScale == 1)
-        {
-            Time.timeScale = 0;
-            Debug.Log("PAUSED");
-        }
-        else
-        {
-            Time.timeScale = 1;
-            Debug.Log("UNPAUSED");
-        }
-    }
-
     IEnumerator TradeStart()
     {
         startTime = Time.time;
-        timeCounter.maxValue = timeLimit;
+        //timeCounter.maxValue = timeLimit;
+        timeCounter.DOScaleX(1f, timeLimit).From(0).SetEase(Ease.OutBounce);
         while(Time.time - startTime < timeLimit)
         {
             yield return null;

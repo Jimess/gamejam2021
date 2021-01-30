@@ -10,9 +10,20 @@ public class GameContent : MonoBehaviour
 
     public List<ContentItem> content;
 
+    public delegate void OnContentLoadDelegate();
+    public static OnContentLoadDelegate OnContentLoad;
 
     private void Awake() {
         Instance = this;
+    }
+
+    private void Start() {
+        LoadContent();
+        OnContentLoad?.Invoke();
+    }
+
+    private void LoadContent() {
+        content = Resources.LoadAll<ContentItem>("ContentItems").ToList();
     }
 
     public enum ITEM_TIER { TIER_1 = 0, TIER_2 = 1, TIER_3 = 2, TIER_4 = 3, TIER_5 = 4, TIER_6 = 5, TIER_7 = 6, TIER_8 = 7 }
