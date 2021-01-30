@@ -25,8 +25,9 @@ public class TradeSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ContentItem testItem1 = GameContent.Instance.content[0];
-        updateTrader(trader1, testItem1);
+        updateCurrentItem(GameContent.Instance.content[0]);
+
+        renewTradeItems();
         StartCoroutine(TradeStart());
     }
 
@@ -69,6 +70,14 @@ public class TradeSystem : MonoBehaviour
     public void SelectItem(ContentItem selectedItem)
     {
         updateCurrentItem(selectedItem);
+        renewTradeItems();
+    }
+
+    private void renewTradeItems()
+    {
+        List<ContentItem> tradeItems = GameContent.Instance.getAroundTier((int)currentPlayerItem.itemTier, 2, currentPlayerItem);
+        updateTrader(trader1, tradeItems[0]);
+        updateTrader(trader2, tradeItems[1]);
     }
 
     void updateTrader(Trader trader, ContentItem item)

@@ -65,6 +65,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6926283845248505374, guid: 17fb775a3fbe31047a2cce46652da178, type: 3}
+      propertyPath: m_Color.b
+      value: 0.7924528
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926283845248505374, guid: 17fb775a3fbe31047a2cce46652da178, type: 3}
+      propertyPath: m_Color.g
+      value: 0.5283385
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926283845248505374, guid: 17fb775a3fbe31047a2cce46652da178, type: 3}
+      propertyPath: m_Color.r
+      value: 0.50462794
+      objectReference: {fileID: 0}
     - target: {fileID: 6926283845248505376, guid: 17fb775a3fbe31047a2cce46652da178, type: 3}
       propertyPath: m_Name
       value: ContentItemPanel
