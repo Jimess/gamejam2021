@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 318ad6561cb7ba240a32fb9c61deec64, type: 3}
-  m_Name: Vodka
+  m_Name: Glasses
   m_EditorClassIdentifier: 
-  itemName: Vodka
-  sprite: {fileID: 21300000, guid: 1cd0515d2c749a04e9203ce90924a1b5, type: 3}
-  color: {r: 1, g: 1, b: 1, a: 1}
-  itemTier: 2
+  itemName: 
+  sprite: {fileID: 0}
+  color: {r: 0, g: 0, b: 0, a: 0}
+  itemTier: 0
   itemSound: {fileID: 0}
