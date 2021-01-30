@@ -273,7 +273,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &445467417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,10 +286,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3dd094b5477154b8d0d4bac0195ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameMesh: {fileID: 225958339}
-  spriteImage: {fileID: 1610953124}
-  tierMesh: {fileID: 1230978654}
-  spriteColor: {fileID: 1500740423}
+  trader1: {fileID: 0}
+  trader2: {fileID: 0}
 --- !u!4 &445467418
 Transform:
   m_ObjectHideFlags: 0
