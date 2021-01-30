@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 318ad6561cb7ba240a32fb9c61deec64, type: 3}
-  m_Name: Item
+  m_Name: Bolts_and_nuts
   m_EditorClassIdentifier: 
-  itemName: 
-  sprite: {fileID: 0}
-  color: {r: 0, g: 0, b: 0, a: 0}
-  itemTier: 0
+  itemName: bolts and nuts
+  sprite: {fileID: 21300000, guid: 680a788613e13514bb3384c19c02a6f9, type: 3}
+  color: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
+  itemTier: 1
   itemSound: {fileID: 0}

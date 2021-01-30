@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 318ad6561cb7ba240a32fb9c61deec64, type: 3}
-  m_Name: abibas
+  m_Name: Abibas_tracksuit
   m_EditorClassIdentifier: 
   itemName: abibas tracksuit
   sprite: {fileID: 21300000, guid: f32758413afc4434b8f3ac468fe4c2f4, type: 3}

@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Vodka
   sprite: {fileID: 21300000, guid: 1cd0515d2c749a04e9203ce90924a1b5, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
-  itemTier: 2
+  itemTier: 4
   itemSound: {fileID: 0}

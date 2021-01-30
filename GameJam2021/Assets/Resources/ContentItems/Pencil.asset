@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 318ad6561cb7ba240a32fb9c61deec64, type: 3}
-  m_Name: Pen
+  m_Name: Pencil
   m_EditorClassIdentifier: 
-  itemName: Pen
-  sprite: {fileID: 21300000, guid: b5289c6ec43e8ee418ecee669d556650, type: 3}
+  itemName: Pencil
+  sprite: {fileID: 21300000, guid: 35aba5a84b1733f419c085bc11943c0f, type: 3}
   color: {r: 0, g: 0, b: 0, a: 0}
   itemTier: 1
   itemSound: {fileID: 0}

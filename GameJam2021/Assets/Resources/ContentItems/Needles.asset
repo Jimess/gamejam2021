@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 318ad6561cb7ba240a32fb9c61deec64, type: 3}
-  m_Name: Pin
+  m_Name: Needles
   m_EditorClassIdentifier: 
-  itemName: Pin
-  sprite: {fileID: 21300000, guid: b5289c6ec43e8ee418ecee669d556650, type: 3}
-  color: {r: 0, g: 0, b: 0, a: 0}
+  itemName: Needles
+  sprite: {fileID: 21300000, guid: dab758c6677a3c342a9c65ee0a338209, type: 3}
+  color: {r: 1, g: 1, b: 1, a: 1}
   itemTier: 0
   itemSound: {fileID: 0}

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318ad6561cb7ba240a32fb9c61deec64, type: 3}
   m_Name: Tracksuit
   m_EditorClassIdentifier: 
-  itemName: 
-  sprite: {fileID: 0}
-  color: {r: 0, g: 0, b: 0, a: 0}
-  itemTier: 0
+  itemName: Tracksuit
+  sprite: {fileID: 21300000, guid: 80a3c1e9c355bde478263862e4befd59, type: 3}
+  color: {r: 1, g: 1, b: 1, a: 1}
+  itemTier: 5
   itemSound: {fileID: 0}

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318ad6561cb7ba240a32fb9c61deec64, type: 3}
   m_Name: Cologne
   m_EditorClassIdentifier: 
-  itemName: 
-  sprite: {fileID: 0}
-  color: {r: 0, g: 0, b: 0, a: 0}
-  itemTier: 0
+  itemName: Cologne
+  sprite: {fileID: 21300000, guid: 8bc148b20f314474f91bee72da65d940, type: 3}
+  color: {r: 1, g: 1, b: 1, a: 1}
+  itemTier: 5
   itemSound: {fileID: 0}
