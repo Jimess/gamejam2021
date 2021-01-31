@@ -77,7 +77,6 @@ public class GameContent : MonoBehaviour
         aroundTierList.Remove(itemToExclude);
         aroundTierList = aroundTierList.OrderBy(x => Guid.NewGuid()).ToList();
         result.AddRange(getRandomItems(aroundTierList, resultCount));
-        Debug.Log(result);
         return result;
     }
 
