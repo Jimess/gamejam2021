@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Kebab
   m_EditorClassIdentifier: 
   itemName: Kebab
-  sprite: {fileID: 21300000, guid: c76a41f9663f5f744bb4975426f52dd7, type: 3}
+  sprite: {fileID: 21300000, guid: dfdc4d317d0eeda44b008fc7acee5e31, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
   itemTier: 4
   itemSound: {fileID: 0}

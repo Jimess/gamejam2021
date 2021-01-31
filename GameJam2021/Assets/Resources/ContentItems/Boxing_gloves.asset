@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Boxing_gloves
   m_EditorClassIdentifier: 
   itemName: Boxing gloves
-  sprite: {fileID: 21300000, guid: ca79d0c4721ae5e44a00f53f5d7f6e70, type: 3}
+  sprite: {fileID: 21300000, guid: 98a2276825029bc4989f9f6557c545f1, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
   itemTier: 4
   itemSound: {fileID: 0}
