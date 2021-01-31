@@ -110,10 +110,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 10.5, y: 0}
-  m_SizeDelta: {x: 10, y: 10}
+  m_SizeDelta: {x: -486, y: -270}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6926283845248505375
 CanvasRenderer:
@@ -167,6 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameMesh: {fileID: 6926283845660466997}
   spriteImage: {fileID: 6926283844691927881}
+  item: {fileID: 0}
 --- !u!1 &6926283845660466998
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,22 +19,41 @@ public class TradeSystem : MonoBehaviour
     private ContentItem goalItem;
     private ContentItem currentPlayerItem;
     private float startTime;
-    
+
+    [Header("Start Anim refs")]
+    [SerializeField] CanvasGroup tradeCanvasGroup;
+
+
+    Coroutine gameCoroutine;
 
     private void Awake()
     {
         Instance = this;
-        //GameContent.OnContentLoad += GO;
+        GameManager.OnTradeLevelStart += StartTradeAnim;
 
+    }
+
+    private void StartTradeAnim() {
+        Sequence seq = DOTween.Sequence();
+        seq.AppendCallback(InitStartAndGoal);
+        seq.Append(DOTween.To(() => tradeCanvasGroup.alpha, x => tradeCanvasGroup.alpha = x, 1f, 1f));
+        seq.AppendCallback(() => {
+            tradeCanvasGroup.interactable = true;
+            tradeCanvasGroup.blocksRaycasts = true;
+        });
+        seq.OnComplete(GO);
+    }
+
+    private void InitStartAndGoal() {
+        updateCurrentItem(GameManager.Instance.GetStartItem());
+        goalItem = GameManager.Instance.GetGoalItem();
+        renewTradeItems();
     }
 
     // Start is called before the first frame update
     void GO()
     {
-        updateCurrentItem(GameContent.Instance.content[0]);
-
-        renewTradeItems();
-        StartCoroutine(TradeStart());
+        gameCoroutine = StartCoroutine(TradeStart());
     }
 
     IEnumerator TradeStart()
@@ -53,7 +72,7 @@ public class TradeSystem : MonoBehaviour
         updateCurrentItem(selectedItem);
         if (currentPlayerItem == goalItem)
         {
-            StopCoroutine(TradeStart());
+            StopCoroutine(gameCoroutine);
             EndTrade(true);
         } else
         {
@@ -71,7 +90,9 @@ public class TradeSystem : MonoBehaviour
         {
             GameManager.Instance.SetStartItem(currentPlayerItem);
         }
-        OnTradeEnd.Invoke();
+
+        Debug.Log("Theee eeend");
+        OnTradeEnd?.Invoke();
         
     }
 

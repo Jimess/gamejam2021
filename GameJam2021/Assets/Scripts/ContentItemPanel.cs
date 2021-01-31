@@ -18,7 +18,7 @@ public class ContentItemPanel : MonoBehaviour
 
     public void OnGoalSelected()
     {
-        //MenuSystem.Instance.GoalPopupAnimationsOUT(this);
+        MenuSystem.Instance.GoalPopupAnimationsOUT(this);
     }
 
 }

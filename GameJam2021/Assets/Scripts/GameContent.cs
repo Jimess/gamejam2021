@@ -91,7 +91,7 @@ public class GameContent : MonoBehaviour
             {
                 randomResult = originalList[UnityEngine.Random.Range(0, originalList.Count)];
                 randomResults.Add(randomResult);
-                randomResults.Remove(randomResult);
+                originalList.Remove(randomResult);
             }
         }
         return randomResults;

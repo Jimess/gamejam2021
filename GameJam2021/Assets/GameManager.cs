@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public delegate void OnLevelStartDelegate();
     public static OnLevelStartDelegate OnGameStart;
+    public delegate void OnTradeLevelStartDelegate();
+    public static OnTradeLevelStartDelegate OnTradeLevelStart;
 
     private ContentItem startItem;
     private ContentItem goalItem;
@@ -18,6 +21,13 @@ public class GameManager : MonoBehaviour
 
     private void ContentLoaded() {
         OnGameStart?.Invoke();
+    }
+
+    public void MenuLevelComplete() {
+        MenuSystem.Instance.HideMenu().OnComplete(() => {
+            OnTradeLevelStart?.Invoke();
+        });
+        
     }
 
 
