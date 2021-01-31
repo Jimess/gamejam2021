@@ -18,6 +18,7 @@ public class MenuSystem : MonoBehaviour
     [SerializeField] TextMeshProUGUI logo1tm;
     [SerializeField] TextMeshProUGUI logo2tm;
     [SerializeField] TextMeshProUGUI logo3tm;
+    [SerializeField] Transform logoGopnik;
 
     [Header("Story search junk refs")]
     [SerializeField] TextMeshProUGUI searchJunkStoryPT1;
@@ -84,6 +85,12 @@ public class MenuSystem : MonoBehaviour
         seq.Append(logo3tm.DOColor(Color.yellow, 0.5f).From(Color.clear));
         seq.Join(logo3tm.transform.DOScale(1f, 0.5f).From(10f).SetEase(Ease.InQuint));
         seq.Append(menuShakeTF.DOShakeRotation(0.2f, Vector3.forward * 10));
+        seq.Append(logoGopnik.DOScale(100f, 1f).From(0).SetEase(Ease.InQuint));
+        //seq.Join(logoGopnik.DOColor(Color.green, 0.5f).From(Color.clear));
+        //seq.Append(menuShakeTF.DOShakeRotation(0.2f, Vector3.forward * 10));
+        seq.AppendCallback(() => {
+            logoGopnik.GetComponent<Animator>().SetTrigger("dance");
+        });
 
         // 2 - Story text
         seq.Append(searchJunkStoryPT1.DOColor(Color.white, 1f).From(Color.clear));
