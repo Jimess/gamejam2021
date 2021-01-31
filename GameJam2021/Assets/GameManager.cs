@@ -5,6 +5,9 @@ using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
+    //CONTS
+    public const float CARD_OPEN_TIME = 0.35f;
+
     public static GameManager Instance;
     public delegate void OnLevelStartDelegate();
     public static OnLevelStartDelegate OnGameStart;

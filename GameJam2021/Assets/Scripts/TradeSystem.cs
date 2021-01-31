@@ -46,32 +46,62 @@ public class TradeSystem : MonoBehaviour
     }
 
     private Tween EndTradeAnim() {
-        GameObject go = Instantiate(contentItemPrefab, playerItem.transform.position, Quaternion.identity, MenuSystem.Instance.getTrashTargetTF());
-        go.GetComponent<RectTransform>().sizeDelta = playerItem.GetComponent<RectTransform>().sizeDelta;
-        ContentItemPanel panel = go.GetComponent<ContentItemPanel>();
-        ContentItem startItem = playerItem.panel.item;
-        panel.updateByItem(startItem);
-
         Sequence seq = DOTween.Sequence();
         seq.Append(DOTween.To(() => tradeCanvasGroup.alpha, x => tradeCanvasGroup.alpha = x, 0f, 1f));
         seq.AppendCallback(() => {
             tradeCanvasGroup.interactable = false;
             tradeCanvasGroup.blocksRaycasts = false;
         });
-        //seq.Append(playerItem.)
-        //seq.AppendCallback(() => {
-            
-        //});
-        seq.Append(go.transform.DOMove(MenuSystem.Instance.getTrashTargetTF().position, 1f));
-        seq.Join(go.GetComponent<RectTransform>().DOSizeDelta(Vector2.zero, 0.5f).SetEase(Ease.InQuint));
-        //seq.Join(go.transform.DOMove(trashTargetTf.position, 0.5f).SetEase(Ease.InQuint));
+
+        if (GameManager.Instance.GetStartItem() != null) {
+            seq.Append(MenuSystem.Instance.getTrashTargetTF().DOScale(0, 0.7f));
+            seq.Join(MenuSystem.Instance.getTrashTargetTF().DORotate(Vector3.forward * 360f, 0.7f, RotateMode.WorldAxisAdd));
+            seq.AppendCallback(() => {
+                foreach (Transform tf in MenuSystem.Instance.getTrashTargetTF()) {
+                    Destroy(tf.gameObject);
+                }
+                if (GameManager.Instance.GetStartItem() != null) {
+                    GameObject go = Instantiate(contentItemPrefab, MenuSystem.Instance.getTrashTargetTF());
+                    go.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
+                    ContentItemPanel panel = go.GetComponent<ContentItemPanel>();
+                    panel.updateByItem(GameManager.Instance.GetStartItem());
+                    panel.gameObject.SetActive(false);
+                    MenuSystem.Instance.randomTrashContentItem = panel;
+                }
+            });
+            seq.AppendCallback(() => MenuSystem.Instance.randomTrashContentItem.gameObject.SetActive((true)));
+            seq.Append(MenuSystem.Instance.getTrashTargetTF().DOScale(1, 0.7f));
+            seq.Join(MenuSystem.Instance.getTrashTargetTF().DORotate(Vector3.forward * 360f, 0.7f, RotateMode.WorldAxisAdd));
+        } else {
+
+            seq.Append(MenuSystem.Instance.getTrashTargetTF().DOScale(0, 0.7f));
+            seq.Join(MenuSystem.Instance.getTrashTargetTF().DORotate(Vector3.forward * 360f, 0.7f, RotateMode.WorldAxisAdd));
+            seq.Join(MenuSystem.Instance.getGoalTF().DOScale(0, 0.7f));
+            seq.Join(MenuSystem.Instance.getGoalTF().DORotate(Vector3.forward * 360f, 0.7f, RotateMode.WorldAxisAdd));
+
+            seq.AppendCallback(() => {
+                foreach (Transform tf in MenuSystem.Instance.getTrashTargetTF()) {
+                    Destroy(tf.gameObject);
+                }
+                foreach (Transform tf in MenuSystem.Instance.getGoalTF()) {
+                    Destroy(tf.gameObject);
+                }
+            });
+        }
+
         return seq;
     }
 
     private void InitStartAndGoal() {
+        this.currentPlayerItem = GameManager.Instance.GetStartItem();
         updateCurrentItem(GameManager.Instance.GetStartItem());
         goalItem = GameManager.Instance.GetGoalItem();
         renewTradeItems();
+        trader1.AnimateIn();
+        trader2.AnimateIn();
+        playerItem.AnimateIn();
+        trader1.EnableButton();
+        trader2.EnableButton();
     }
 
     // Start is called before the first frame update
@@ -93,15 +123,51 @@ public class TradeSystem : MonoBehaviour
 
     public void SelectItem(ContentItem selectedItem)
     {
-        updateCurrentItem(selectedItem);
+        Sequence seq = DOTween.Sequence();
+        // DISABLE ALL BUTTONS
+        DisableAllButton();
+        this.currentPlayerItem = selectedItem;
+
+        //ANIMS
+        if (trader1.returnItem().itemName == selectedItem.name) {
+            seq.Append(trader1.AnimateOut());
+            seq.Join(playerItem.AnimateOut());
+            seq.Join(trader2.AnimateOut());
+            seq.AppendInterval(GameManager.CARD_OPEN_TIME);
+            seq.AppendCallback(() => updateCurrentItem(selectedItem));
+            seq.Append(playerItem.AnimateIn());
+            
+        } else {
+            seq.Append(trader2.AnimateOut());
+            seq.Join(playerItem.AnimateOut());
+            seq.Join(trader1.AnimateOut());
+            seq.AppendInterval(GameManager.CARD_OPEN_TIME);
+            seq.AppendCallback(() => updateCurrentItem(selectedItem));
+            seq.Append(playerItem.AnimateIn());
+            
+        }
+        
         if (currentPlayerItem == goalItem)
         {
-            StopCoroutine(gameCoroutine);
-            EndTrade(true);
-        } else
-        {
-            renewTradeItems();
+            seq.AppendCallback(() => {
+                StopCoroutine(gameCoroutine);
+                EndTrade(true);
+            });
+        } else {
+            seq.AppendCallback(() => renewTradeItems());
+            seq.Append(trader1.AnimateIn());
+            seq.Join(trader2.AnimateIn());
+            seq.AppendCallback(() => {
+                trader1.EnableButton();
+                trader2.EnableButton();
+            });
+            
         }
+    }
+
+    void DisableAllButton() {
+        trader1.DisableButton();
+        trader2.DisableButton();
     }
 
     private void EndTrade(bool win)
@@ -137,7 +203,6 @@ public class TradeSystem : MonoBehaviour
 
     void updateCurrentItem(ContentItem item)
     {
-        this.currentPlayerItem = item;
         this.playerItem.updateByItem(currentPlayerItem);
     }
 

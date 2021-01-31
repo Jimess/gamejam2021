@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerItem : MonoBehaviour
 {
@@ -34,5 +35,17 @@ public class PlayerItem : MonoBehaviour
     public ContentItem returnItem()
     {
         return this.item;
+    }
+
+    public Tween AnimateOut() {
+        Sequence seq = DOTween.Sequence();
+
+        seq.Append(transform.DORotate(Vector2.up * (Random.Range(0, 2) == 0 ? 90 : -90), GameManager.CARD_OPEN_TIME, RotateMode.LocalAxisAdd));
+
+        return seq;
+    }
+
+    public Tween AnimateIn() {
+        return transform.DORotate(Vector2.zero, GameManager.CARD_OPEN_TIME);
     }
 }

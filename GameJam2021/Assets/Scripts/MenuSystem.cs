@@ -31,9 +31,12 @@ public class MenuSystem : MonoBehaviour
 
     [Header("Trash popup refs")]
     [SerializeField] Transform trashPopup;
-    [SerializeField] ContentItemPanel randomTrashContentItem;
+    public ContentItemPanel randomTrashContentItem;
     [SerializeField] Transform randomTrashContentSpawnParent;
+
     [SerializeField] Transform trashTargetTf;
+    [SerializeField] RectTransform trashTargetStartRTF;
+    [SerializeField] RectTransform trashTargetEndRTF;
 
     [Header("Button to search goal")]
     [SerializeField] TextMeshProUGUI searchGoalButtontm;
@@ -46,7 +49,11 @@ public class MenuSystem : MonoBehaviour
     [SerializeField] GameObject goalContentItemPrefab;
     [SerializeField] GameObject contentItemPanelPrefab;
     [SerializeField] List<ContentItemPanel> randomGoalContentItems;
+
+    private ContentItemPanel newSelectedGoalContentItem;
     [SerializeField] Transform goalTargetTf;
+    [SerializeField] RectTransform goalTargetTfStartRTF;
+    [SerializeField] RectTransform goalTargetTfEndRTF;
 
     [Header("Button to start Trade")]
     [SerializeField] TextMeshProUGUI startTradeGoalButtontm;
@@ -119,13 +126,14 @@ public class MenuSystem : MonoBehaviour
 
         // trash popup dissapears without content item
         seq.AppendCallback(() => {
+            Destroy(randomTrashContentItem);
             GameObject go = Instantiate(contentItemPanelPrefab, randomTrashContentSpawnParent);
             go.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
             ContentItemPanel panel = go.GetComponent<ContentItemPanel>();
             ContentItem startItem = GameContent.Instance.getTrash();
             GameManager.Instance.SetStartItem(startItem);
             panel.updateByItem(startItem);
-            randomTrashContentItem = panel;
+            //randomTrashContentItem = panel;
         });
         seq.Append(trashPopup.DOScale(1f, 0.75f));
     }
@@ -133,13 +141,27 @@ public class MenuSystem : MonoBehaviour
     public void TrashPopupAnimationsOUT() {
         Sequence seq = DOTween.Sequence();
 
-        // trash popup dissapears without content item
-        seq.AppendCallback(() => {
-            randomTrashContentItem.transform.SetParent(trashTargetTf);
-        });
         seq.Append(menuShakeTF.DOShakeRotation(1f, 10f));
-        seq.Append(randomTrashContentItem.GetComponent<RectTransform>().DOSizeDelta(Vector2.zero, 0.5f).SetEase(Ease.InQuint));
-        seq.Join(randomTrashContentItem.transform.DOMove(trashTargetTf.position, 0.5f).SetEase(Ease.InQuint));
+        //seq.Append(trashTargetTf.GetComponent<RectTransform>().DOAnchorPos(trashTargetStartRTF.anchoredPosition, 0.5f));
+        //seq.AppendCallback(() => randomTrashContentItem.gameObject.SetActive((true)));
+        //seq.Append(trashTargetTf.GetComponent<RectTransform>().DOAnchorPos(trashTargetEndRTF.anchoredPosition, 0.5f));
+        seq.Append(trashTargetTf.DOScale(0, 0.7f));
+        seq.Join(trashTargetTf.DORotate(Vector3.forward * 360f, 0.7f, RotateMode.WorldAxisAdd));
+        seq.AppendCallback(() => {
+            foreach(Transform tf in trashTargetTf) {
+                Destroy(tf.gameObject);
+            }
+            GameObject go = Instantiate(contentItemPanelPrefab, trashTargetTf);
+            go.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
+            ContentItemPanel panel = go.GetComponent<ContentItemPanel>();
+            panel.updateByItem(GameManager.Instance.GetStartItem());
+            panel.gameObject.SetActive(false);
+            randomTrashContentItem = panel;
+        });
+        seq.AppendCallback(() => randomTrashContentItem.gameObject.SetActive((true)));
+        seq.Append(trashTargetTf.DOScale(1, 0.7f));
+        seq.Join(trashTargetTf.DORotate(Vector3.forward * 360f, 0.7f, RotateMode.WorldAxisAdd));
+
         seq.Append(trashPopup.DOScale(0f, 0.75f));
 
         //next stuff
@@ -190,24 +212,35 @@ public class MenuSystem : MonoBehaviour
     }
 
     public void GoalPopupAnimationsOUT(ContentItemPanel clickItemPanel) {
-        GameObject item = Instantiate(contentItemPanelPrefab, clickItemPanel.transform.parent.position, Quaternion.identity, goalContentItemParent);
-        ContentItemPanel panel = item.GetComponent<ContentItemPanel>();
-        panel.updateByItem(clickItemPanel.item);
-        //panel.GetComponent<RectTransform>().sizeDelta = clickItemPanel.GetComponent<RectTransform>().sizeDelta;
-        panel.transform.SetParent(goalTargetTf);
-
         //set goal
         GameManager.Instance.SetGoalItem(clickItemPanel.item);
 
-        //item.SetActive(false);
         Sequence seq = DOTween.Sequence();
 
         foreach (ContentItemPanel p in randomGoalContentItems) {
             p.transform.parent.GetComponent<Button>().interactable = false;
         }
         seq.Append(menuShakeTF.DOShakeRotation(1f, 10f));
-        seq.Append(item.gameObject.GetComponent<RectTransform>().DOSizeDelta(Vector2.zero, 0.5f).SetEase(Ease.InQuint));
-        seq.Join(item.transform.DOMove(goalTargetTf.position, 0.5f).SetEase(Ease.InQuint));
+        //seq.Append(goalTargetTf.GetComponent<RectTransform>().DOAnchorPos(goalTargetTfStartRTF.anchoredPosition, 0.5f));
+        seq.Append(goalTargetTf.DOScale(0, 0.7f));
+        seq.Join(goalTargetTf.DORotate(Vector3.forward * 360f, 0.7f, RotateMode.WorldAxisAdd));
+        seq.AppendCallback(() => {
+            foreach (Transform tf in goalTargetTf) {
+                Destroy(tf.gameObject);
+            }
+            GameObject go = Instantiate(contentItemPanelPrefab, goalTargetTf);
+            go.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
+            ContentItemPanel panel = go.GetComponent<ContentItemPanel>();
+            panel.updateByItem(clickItemPanel.item);
+            panel.gameObject.SetActive(false);
+            newSelectedGoalContentItem = panel;
+        });
+        seq.AppendCallback(() => {
+            newSelectedGoalContentItem.gameObject.SetActive(true);
+        });
+        seq.Append(goalTargetTf.DOScale(1, 0.7f));
+        seq.Join(goalTargetTf.DORotate(Vector3.back * 360f, 0.7f, RotateMode.WorldAxisAdd));
+
         seq.Append(goalPopup.DOScale(0f, 0.75f).OnComplete(() => {
             foreach (Transform tf in goalContentItemParent) {
                 Destroy(tf.gameObject);
@@ -270,5 +303,9 @@ public class MenuSystem : MonoBehaviour
 
     public Transform getTrashTargetTF() {
         return trashTargetTf;
+    }
+
+    public Transform getGoalTF() {
+        return goalTargetTf;
     }
 }
