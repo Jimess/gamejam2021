@@ -150,7 +150,7 @@ public class MenuSystem : MonoBehaviour
         seq.AppendCallback(() => {
             foreach(Transform tf in trashTargetTf) {
                 Destroy(tf.gameObject);
-            }
+            }            
             GameObject go = Instantiate(contentItemPanelPrefab, trashTargetTf);
             go.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
             ContentItemPanel panel = go.GetComponent<ContentItemPanel>();
@@ -162,7 +162,11 @@ public class MenuSystem : MonoBehaviour
         seq.Append(trashTargetTf.DOScale(1, 0.7f));
         seq.Join(trashTargetTf.DORotate(Vector3.forward * 360f, 0.7f, RotateMode.WorldAxisAdd));
 
-        seq.Append(trashPopup.DOScale(0f, 0.75f));
+        seq.Append(trashPopup.DOScale(0f, 0.75f).OnComplete(() => {
+            foreach (Transform tf in randomTrashContentSpawnParent) {
+                Destroy(tf.gameObject);
+            }
+        }));
 
         //next stuff
         seq.AppendCallback(() => {
