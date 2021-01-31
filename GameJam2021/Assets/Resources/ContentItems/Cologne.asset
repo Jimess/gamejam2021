@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cologne
   m_EditorClassIdentifier: 
   itemName: Cologne
-  sprite: {fileID: 21300000, guid: 8bc148b20f314474f91bee72da65d940, type: 3}
+  sprite: {fileID: 21300000, guid: 5ba4da52647ac6945a989e332c4f2162, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
   itemTier: 5
   itemSound: {fileID: 0}

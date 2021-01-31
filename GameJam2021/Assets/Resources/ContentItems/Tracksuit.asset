@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tracksuit
   m_EditorClassIdentifier: 
   itemName: Tracksuit
-  sprite: {fileID: 21300000, guid: 80a3c1e9c355bde478263862e4befd59, type: 3}
+  sprite: {fileID: 21300000, guid: bad98205ce3f9124ca78770f968a6c74, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
   itemTier: 5
   itemSound: {fileID: 0}

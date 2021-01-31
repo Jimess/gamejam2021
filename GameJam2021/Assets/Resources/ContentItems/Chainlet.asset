@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 318ad6561cb7ba240a32fb9c61deec64, type: 3}
-  m_Name: Necklace
+  m_Name: Chainlet
   m_EditorClassIdentifier: 
-  itemName: Necklace
-  sprite: {fileID: 21300000, guid: e7bf9c8efbd131d4a94f1dbf2ea2824c, type: 3}
+  itemName: Chainlet
+  sprite: {fileID: 21300000, guid: c00db676f69ae674a92e4fb6719cc144, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
   itemTier: 5
   itemSound: {fileID: 0}

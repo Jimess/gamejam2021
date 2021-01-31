@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Phone
   m_EditorClassIdentifier: 
   itemName: Phone
-  sprite: {fileID: 21300000, guid: fc89ef18e052eea4bb81e529e46b4413, type: 3}
+  sprite: {fileID: 21300000, guid: 30c1021260bdc0943884f699cb8026b6, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
   itemTier: 5
   itemSound: {fileID: 0}

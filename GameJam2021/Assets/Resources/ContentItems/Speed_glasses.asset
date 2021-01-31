@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Speed_glasses
   m_EditorClassIdentifier: 
   itemName: Speed glasses
-  sprite: {fileID: 21300000, guid: 18f42e683d082334484dcdf716948bea, type: 3}
+  sprite: {fileID: 21300000, guid: ebe615484fd195444ac439104be359d3, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
   itemTier: 5
   itemSound: {fileID: 0}
