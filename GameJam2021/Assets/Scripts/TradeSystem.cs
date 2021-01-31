@@ -78,6 +78,7 @@ public class TradeSystem : MonoBehaviour
             seq.Join(MenuSystem.Instance.getTrashTargetTF().DORotate(Vector3.forward * 360f, 0.7f, RotateMode.WorldAxisAdd));
             seq.Join(MenuSystem.Instance.getGoalTF().DOScale(0, 0.7f));
             seq.Join(MenuSystem.Instance.getGoalTF().DORotate(Vector3.forward * 360f, 0.7f, RotateMode.WorldAxisAdd));
+            seq.Join(MenuSystem.Instance.showArrow.transform.DOScale(0f, 0.7f));
 
             seq.AppendCallback(() => {
                 foreach (Transform tf in MenuSystem.Instance.getTrashTargetTF()) {

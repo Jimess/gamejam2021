@@ -49,6 +49,7 @@ public class MenuSystem : MonoBehaviour
     [SerializeField] GameObject goalContentItemPrefab;
     [SerializeField] GameObject contentItemPanelPrefab;
     [SerializeField] List<ContentItemPanel> randomGoalContentItems;
+    public Image showArrow;
 
     private ContentItemPanel newSelectedGoalContentItem;
     [SerializeField] Transform goalTargetTf;
@@ -76,13 +77,13 @@ public class MenuSystem : MonoBehaviour
         // 1 - LOGO (3PART LOGO)
         seq.Append(logo1tm.DOColor(Color.green, 0.5f).From(Color.clear));
         seq.Join(logo1tm.transform.DOScale(1f, 0.5f).From(10f).SetEase(Ease.InQuint));
-        seq.Append(menuShakeTF.DOShakeRotation(0.1f, 10f));
+        seq.Append(menuShakeTF.DOShakeRotation(0.2f, Vector3.forward * 10));
         seq.Join(logo2tm.DOColor(Color.red, 0.5f).From(Color.clear));
         seq.Join(logo2tm.transform.DOScale(1f, 0.5f).From(10f).SetEase(Ease.InQuint));
-        seq.Append(menuShakeTF.DOShakeRotation(0.1f, 10f));
+        seq.Append(menuShakeTF.DOShakeRotation(0.2f, Vector3.forward * 10));
         seq.Append(logo3tm.DOColor(Color.yellow, 0.5f).From(Color.clear));
         seq.Join(logo3tm.transform.DOScale(1f, 0.5f).From(10f).SetEase(Ease.InQuint));
-        seq.Append(menuShakeTF.DOShakeRotation(0.1f, 10f));
+        seq.Append(menuShakeTF.DOShakeRotation(0.2f, Vector3.forward * 10));
 
         // 2 - Story text
         seq.Append(searchJunkStoryPT1.DOColor(Color.white, 1f).From(Color.clear));
@@ -105,7 +106,7 @@ public class MenuSystem : MonoBehaviour
         }));
         seq.Join(panelImage.DOColor(new Color(panelImage.color.r, panelImage.color.g, panelImage.color.b, 1f), 0.5f).From(Color.clear));
         seq.Join(panelImage.transform.DOScale(1f, 0.5f).From(10f).SetEase(Ease.InQuint));
-        seq.Append(menuShakeTF.DOShakeRotation(0.1f, 10f));
+        seq.Append(menuShakeTF.DOShakeRotation(0.2f, Vector3.forward * 10));
     }
 
     public void TrashButtonAnimationIN() {
@@ -118,7 +119,7 @@ public class MenuSystem : MonoBehaviour
         }));
         seq.Join(panelImage.DOColor(new Color(panelImage.color.r, panelImage.color.g, panelImage.color.b, 1f), 0.5f).From(Color.clear));
         seq.Join(panelImage.transform.DOScale(1f, 0.5f).From(10f).SetEase(Ease.InQuint));
-        seq.Append(menuShakeTF.DOShakeRotation(0.1f, 10f));
+        seq.Append(menuShakeTF.DOShakeRotation(0.2f, Vector3.forward * 10));
     }
 
     public void TrashPopupAnimationsIN() {
@@ -126,14 +127,18 @@ public class MenuSystem : MonoBehaviour
 
         // trash popup dissapears without content item
         seq.AppendCallback(() => {
-            Destroy(randomTrashContentItem);
+            if (randomTrashContentItem) {
+                Debug.Log("DESTROY");
+                Destroy(randomTrashContentItem.gameObject);
+            }
+                
             GameObject go = Instantiate(contentItemPanelPrefab, randomTrashContentSpawnParent);
             go.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
             ContentItemPanel panel = go.GetComponent<ContentItemPanel>();
             ContentItem startItem = GameContent.Instance.getTrash();
             GameManager.Instance.SetStartItem(startItem);
             panel.updateByItem(startItem);
-            //randomTrashContentItem = panel;
+            randomTrashContentItem = panel;
         });
         seq.Append(trashPopup.DOScale(1f, 0.75f));
     }
@@ -141,7 +146,7 @@ public class MenuSystem : MonoBehaviour
     public void TrashPopupAnimationsOUT() {
         Sequence seq = DOTween.Sequence();
 
-        seq.Append(menuShakeTF.DOShakeRotation(1f, 10f));
+        seq.Append(menuShakeTF.DOShakeRotation(0.2f, Vector3.forward * 10));
         //seq.Append(trashTargetTf.GetComponent<RectTransform>().DOAnchorPos(trashTargetStartRTF.anchoredPosition, 0.5f));
         //seq.AppendCallback(() => randomTrashContentItem.gameObject.SetActive((true)));
         //seq.Append(trashTargetTf.GetComponent<RectTransform>().DOAnchorPos(trashTargetEndRTF.anchoredPosition, 0.5f));
@@ -150,7 +155,8 @@ public class MenuSystem : MonoBehaviour
         seq.AppendCallback(() => {
             foreach(Transform tf in trashTargetTf) {
                 Destroy(tf.gameObject);
-            }            
+            }
+            Destroy(randomTrashContentItem.gameObject);
             GameObject go = Instantiate(contentItemPanelPrefab, trashTargetTf);
             go.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
             ContentItemPanel panel = go.GetComponent<ContentItemPanel>();
@@ -162,11 +168,7 @@ public class MenuSystem : MonoBehaviour
         seq.Append(trashTargetTf.DOScale(1, 0.7f));
         seq.Join(trashTargetTf.DORotate(Vector3.forward * 360f, 0.7f, RotateMode.WorldAxisAdd));
 
-        seq.Append(trashPopup.DOScale(0f, 0.75f).OnComplete(() => {
-            foreach (Transform tf in randomTrashContentSpawnParent) {
-                Destroy(tf.gameObject);
-            }
-        }));
+        seq.Append(trashPopup.DOScale(0f, 0.75f));
 
         //next stuff
         seq.AppendCallback(() => {
@@ -188,7 +190,7 @@ public class MenuSystem : MonoBehaviour
         }));
         seq.Join(searchPanelImage.DOColor(new Color(searchPanelImage.color.r, searchPanelImage.color.g, searchPanelImage.color.b, 1f), 0.5f).From(Color.clear));
         seq.Join(searchPanelImage.transform.DOScale(1f, 0.5f).From(10f).SetEase(Ease.InQuint));
-        seq.Append(menuShakeTF.DOShakeRotation(0.1f, 10f));
+        seq.Append(menuShakeTF.DOShakeRotation(0.2f, Vector3.forward * 10));
     }
 
     public void GoalPopupAnimationsIN() {
@@ -224,7 +226,7 @@ public class MenuSystem : MonoBehaviour
         foreach (ContentItemPanel p in randomGoalContentItems) {
             p.transform.parent.GetComponent<Button>().interactable = false;
         }
-        seq.Append(menuShakeTF.DOShakeRotation(1f, 10f));
+        seq.Append(menuShakeTF.DOShakeRotation(0.2f, Vector3.forward * 10));
         //seq.Append(goalTargetTf.GetComponent<RectTransform>().DOAnchorPos(goalTargetTfStartRTF.anchoredPosition, 0.5f));
         seq.Append(goalTargetTf.DOScale(0, 0.7f));
         seq.Join(goalTargetTf.DORotate(Vector3.forward * 360f, 0.7f, RotateMode.WorldAxisAdd));
@@ -244,6 +246,8 @@ public class MenuSystem : MonoBehaviour
         });
         seq.Append(goalTargetTf.DOScale(1, 0.7f));
         seq.Join(goalTargetTf.DORotate(Vector3.back * 360f, 0.7f, RotateMode.WorldAxisAdd));
+        seq.Append(showArrow.transform.DOScale(1f, 0.5f).From(0));
+        seq.Append(menuShakeTF.DOShakeRotation(0.2f, Vector3.forward * 10));
 
         seq.Append(goalPopup.DOScale(0f, 0.75f).OnComplete(() => {
             foreach (Transform tf in goalContentItemParent) {
@@ -269,7 +273,7 @@ public class MenuSystem : MonoBehaviour
         }));
         seq.Join(startTradePanelImage.DOColor(new Color(startTradePanelImage.color.r, startTradePanelImage.color.g, startTradePanelImage.color.b, 1f), 0.5f).From(Color.clear));
         seq.Join(startTradePanelImage.transform.DOScale(1f, 0.5f).From(10f).SetEase(Ease.InQuint));
-        seq.Append(menuShakeTF.DOShakeRotation(0.1f, 10f));
+        seq.Append(menuShakeTF.DOShakeRotation(0.2f, Vector3.forward * 10));
     }
 
     public Tween HideMenu() {
