@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     private void Awake() {
         Instance = this;
         GameContent.OnContentLoad += ContentLoaded;
+        TradeSystem.OnTradeEnd += TradeLevelComplete;
     }
 
     private void ContentLoaded() {
@@ -28,6 +29,10 @@ public class GameManager : MonoBehaviour
             OnTradeLevelStart?.Invoke();
         });
         
+    }
+
+    public void TradeLevelComplete() {
+        MenuSystem.Instance.ShowMenu();
     }
 
 

@@ -22,6 +22,7 @@ public class TradeSystem : MonoBehaviour
 
     [Header("Start Anim refs")]
     [SerializeField] CanvasGroup tradeCanvasGroup;
+    [SerializeField] GameObject contentItemPrefab;
 
 
     Coroutine gameCoroutine;
@@ -42,6 +43,29 @@ public class TradeSystem : MonoBehaviour
             tradeCanvasGroup.blocksRaycasts = true;
         });
         seq.OnComplete(GO);
+    }
+
+    private Tween EndTradeAnim() {
+        GameObject go = Instantiate(contentItemPrefab, playerItem.transform.position, Quaternion.identity, MenuSystem.Instance.getTrashTargetTF());
+        go.GetComponent<RectTransform>().sizeDelta = playerItem.GetComponent<RectTransform>().sizeDelta;
+        ContentItemPanel panel = go.GetComponent<ContentItemPanel>();
+        ContentItem startItem = playerItem.panel.item;
+        panel.updateByItem(startItem);
+
+        Sequence seq = DOTween.Sequence();
+        seq.Append(DOTween.To(() => tradeCanvasGroup.alpha, x => tradeCanvasGroup.alpha = x, 0f, 1f));
+        seq.AppendCallback(() => {
+            tradeCanvasGroup.interactable = false;
+            tradeCanvasGroup.blocksRaycasts = false;
+        });
+        //seq.Append(playerItem.)
+        //seq.AppendCallback(() => {
+            
+        //});
+        seq.Append(go.transform.DOMove(MenuSystem.Instance.getTrashTargetTF().position, 1f));
+        seq.Join(go.GetComponent<RectTransform>().DOSizeDelta(Vector2.zero, 0.5f).SetEase(Ease.InQuint));
+        //seq.Join(go.transform.DOMove(trashTargetTf.position, 0.5f).SetEase(Ease.InQuint));
+        return seq;
     }
 
     private void InitStartAndGoal() {
@@ -92,7 +116,10 @@ public class TradeSystem : MonoBehaviour
         }
 
         Debug.Log("Theee eeend");
-        OnTradeEnd?.Invoke();
+        EndTradeAnim().OnComplete(() => {
+            OnTradeEnd?.Invoke();
+        });
+        
         
     }
 

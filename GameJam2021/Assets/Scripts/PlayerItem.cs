@@ -6,7 +6,7 @@ public class PlayerItem : MonoBehaviour
 {
 
     private ContentItem item;
-    [SerializeField] ContentItemPanel panel;
+    public ContentItemPanel panel;
 
     // Start is called before the first frame update
     void Start()

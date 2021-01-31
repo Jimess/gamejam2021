@@ -800,8 +800,9 @@ MonoBehaviour:
   trader1: {fileID: 69592356}
   trader2: {fileID: 694954521}
   timeCounter: {fileID: 1061640534}
-  timeLimit: 120
+  timeLimit: 60
   tradeCanvasGroup: {fileID: 2079776862}
+  contentItemPrefab: {fileID: 6926283845248505376, guid: 17fb775a3fbe31047a2cce46652da178, type: 3}
 --- !u!4 &1043938765
 Transform:
   m_ObjectHideFlags: 0
@@ -1338,6 +1339,7 @@ MonoBehaviour:
   button: {fileID: 3856258821434716339}
   trashPopup: {fileID: 3856258821216508196}
   randomTrashContentItem: {fileID: 3856258820674111048}
+  randomTrashContentSpawnParent: {fileID: 3856258819947823795}
   trashTargetTf: {fileID: 3856258820480727334}
   searchGoalButtontm: {fileID: 3856258819915677283}
   searchPanelImage: {fileID: 3856258819827601113}
@@ -3738,6 +3740,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 3856258819827601115}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &3856258820463277690
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4081,6 +4095,10 @@ PrefabInstance:
     - target: {fileID: 6926283845248505376, guid: 17fb775a3fbe31047a2cce46652da178, type: 3}
       propertyPath: m_Name
       value: TrashPopupContentItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926283845248505376, guid: 17fb775a3fbe31047a2cce46652da178, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6926283845248505377, guid: 17fb775a3fbe31047a2cce46652da178, type: 3}
       propertyPath: m_Pivot.x

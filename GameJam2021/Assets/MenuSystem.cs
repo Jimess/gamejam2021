@@ -32,6 +32,7 @@ public class MenuSystem : MonoBehaviour
     [Header("Trash popup refs")]
     [SerializeField] Transform trashPopup;
     [SerializeField] ContentItemPanel randomTrashContentItem;
+    [SerializeField] Transform randomTrashContentSpawnParent;
     [SerializeField] Transform trashTargetTf;
 
     [Header("Button to search goal")]
@@ -100,14 +101,31 @@ public class MenuSystem : MonoBehaviour
         seq.Append(menuShakeTF.DOShakeRotation(0.1f, 10f));
     }
 
+    public void TrashButtonAnimationIN() {
+        Sequence seq = DOTween.Sequence();
+        // BUTTON TO SEARCH TRASH
+        seq.AppendCallback(() => panelImage.gameObject.SetActive(true));
+        seq.Append(trashButtontm.DOColor(Color.white, 0.5f).From(Color.clear).OnComplete(() => {
+            menuCanvasGroup.blocksRaycasts = true;
+            menuCanvasGroup.interactable = true;
+        }));
+        seq.Join(panelImage.DOColor(new Color(panelImage.color.r, panelImage.color.g, panelImage.color.b, 1f), 0.5f).From(Color.clear));
+        seq.Join(panelImage.transform.DOScale(1f, 0.5f).From(10f).SetEase(Ease.InQuint));
+        seq.Append(menuShakeTF.DOShakeRotation(0.1f, 10f));
+    }
+
     public void TrashPopupAnimationsIN() {
         Sequence seq = DOTween.Sequence();
 
         // trash popup dissapears without content item
         seq.AppendCallback(() => {
+            GameObject go = Instantiate(contentItemPanelPrefab, randomTrashContentSpawnParent);
+            go.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
+            ContentItemPanel panel = go.GetComponent<ContentItemPanel>();
             ContentItem startItem = GameContent.Instance.getTrash();
             GameManager.Instance.SetStartItem(startItem);
-            randomTrashContentItem.updateByItem(startItem);
+            panel.updateByItem(startItem);
+            randomTrashContentItem = panel;
         });
         seq.Append(trashPopup.DOScale(1f, 0.75f));
     }
@@ -177,6 +195,10 @@ public class MenuSystem : MonoBehaviour
         panel.updateByItem(clickItemPanel.item);
         //panel.GetComponent<RectTransform>().sizeDelta = clickItemPanel.GetComponent<RectTransform>().sizeDelta;
         panel.transform.SetParent(goalTargetTf);
+
+        //set goal
+        GameManager.Instance.SetGoalItem(clickItemPanel.item);
+
         //item.SetActive(false);
         Sequence seq = DOTween.Sequence();
 
@@ -215,6 +237,9 @@ public class MenuSystem : MonoBehaviour
 
     public Tween HideMenu() {
         Sequence seq = DOTween.Sequence();
+        seq.AppendCallback(() => {
+            startTradePanelImage.gameObject.SetActive(false);
+        });
         seq.Append(menuShakeTF.transform.DOScale(0, 0.5f));
         seq.Join(menuBG.DOScale(0, 0.5f));
         seq.AppendCallback(() => {
@@ -227,6 +252,23 @@ public class MenuSystem : MonoBehaviour
     }
 
     public void ShowMenu() {
+        Sequence seq = DOTween.Sequence();
+        seq.Append(menuShakeTF.transform.DOScale(1, 0.5f));
+        seq.Join(menuBG.DOScale(1, 0.5f));
+        seq.AppendCallback(() => {
+            menuCanvasGroup.blocksRaycasts = true;
+            menuCanvasGroup.interactable = true;
+        });
+        if (GameManager.Instance.GetStartItem() != null) {
+            Debug.Log("SHOW MENU! " + GameManager.Instance.GetStartItem() != null);
+            seq.AppendCallback(StartTradeButtonAnimationsIN);
+        } else {
+            Debug.Log("SHOW MENU FROM START " + GameManager.Instance.GetStartItem() != null);
+            seq.AppendCallback(TrashButtonAnimationIN);
+        }
+    }
 
+    public Transform getTrashTargetTF() {
+        return trashTargetTf;
     }
 }
